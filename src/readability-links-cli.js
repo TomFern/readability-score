@@ -1,15 +1,10 @@
 #!/usr/bin/env node
+// Analyzes readability in urls found in markdown file
 
-// arguments:
-// -f FILE.md Get links from Markdown file.
-// -o FILE.json Write report
-
-const readability = require('./readability');
 const fs = require('fs');
 const linkExtractor = require("markdown-link-extractor");
 const { showScore, showCard, showTotals } = require('./cards');
-// const fnInArgs = process.argv[2];
-
+const readability = require('./readability');
 
 const yargs = require('yargs') // eslint-disable-line
   .scriptName('readability-links')
@@ -29,58 +24,32 @@ const yargs = require('yargs') // eslint-disable-line
   .alias('h', 'help');
 const argv = yargs.argv;
 
-
-// const report = [];
-// if(argv.file) {
-//   report.push(readability.analyzeFile(argv.file));
-// }
-
-// return number of cache hits for a url
-// function scoreExists(url, cache) {
-//     return cache.filter(c => c.url === url).length;
-// }
-
-// read previously saved scores
+// read previously analyzed score from save-score file
 let savedScores = [];
 if(argv['save-score'] && fs.existsSync(argv['save-score']))
     savedScores = JSON.parse(fs.readFileSync(argv['save-score'], 'utf8').toString());
-// console.log(savedScores);
+
+// extract url from read-file 
+// and filter out urls already found in save-score
 const savedUrls = savedScores.map(s => s.url);
-// console.log(savedUrls);
-// extract urls from markdown file
-// argv['read-file'] = 'readability/test.md';
 const urls = linkExtractor(fs.readFileSync(argv['read-file']).toString())
     .filter(u => !savedUrls.includes(u))
 ;
-// console.log(urls);
 
-// begin analyzing the urls not previously analyzed
+// begin analyzing the remaining urls
 const scores = urls.map(url => readability.analyzeUrl(url));
 
-// show results in terminal
+// show results in terminal & save score file
 if(argv['show-card']) showCard();
 Promise.all(scores)
-    .then(score => {
-        showScore(score);
-        const allScores = savedScores.concat(score);
-        
-        // console.log("");
-        showTotals(allScores);
+    .then(newScore => {
+        const allScores = savedScores.concat(newScore);
         if(argv['save-score'])
             fs.writeFileSync(argv['save-score'], JSON.stringify(allScores, null, 4), 'utf8');
-        
-        console.log("%i skipped urls", allScores.length - urls.length);
-        // const links = generateLinks(urls, words);
-        // const cache = appendToCache(fnargs, links);
-        // const report = generateReport(cache);
-        // console.log(JSON.stringify(report, null, 4));
 
-        // if(report.length) {             
-        //     console.log(JSON.stringify(report, null, 4));
-        //     if(argv.output) {
-        //       fs.writeFileSync(argv.output, JSON.stringify(report, null, 4));
-        //     }
-        //   }
+        // show results
+        showScore(newScore);
+        showTotals(allScores);        
+        console.log("%i skipped urls", allScores.length - newScore.length);
     })
     .catch(console.error);
-

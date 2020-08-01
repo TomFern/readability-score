@@ -28,15 +28,13 @@ exports.showScore = (score) => {
         console.log("  %s", sc('grade', r.gradeRequired));
         console.log("");
     });
-    // console.log(chalk.dim("Use --card to see what these values mean."));
-
 };
 
 // prints totals/averages
 exports.showTotals = (score) => {
 
     function totalize(metric) {
-        return score.reduce((a,b) => a.readability[metric]+b.readability[metric]);
+        return score.slice(5).reduce((a,b) => a+b.readability[metric], 0);
     }
 
     const totalWords = totalize('wordCount');
@@ -45,8 +43,7 @@ exports.showTotals = (score) => {
     console.log("  words: %i, links: %i"
                 ,totalWords
                 ,totalLinks);
-    // console.log(chalk.underline("Averages"));
-    // console.log("  words: %f", totalWords/totalLinks);
+
     console.log("  %s, %s, %s, %s"
         ,sc('ease', totalize('fleschReadingEase')/totalLinks)
         ,sc('ari', totalize('automatedReadabilityIndex')/totalLinks)

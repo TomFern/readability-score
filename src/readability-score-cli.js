@@ -45,16 +45,6 @@ if(argv['read-url']) {
   }  
 }
 
-// check if readability exists in report for current file
-// function reportExists(entry) {
-//     return entry.pathRelative == readability.pathRelative
-//            && entry.dateModified == readability.dateModified;
-// }
-
-// if(!readabilityReport.find(reportExists)) {
-//     readabilityReport.push(readability);
-// }
-
 // show results in terminal
 if(argv['show-card']) showCard();
 if(analysis.length == 0) {

@@ -8,17 +8,6 @@ const rs = require('text-readability');
 
 const defaultLang = 'en-US';
 
-// read previous report reports in current directory
-// exports.readPreviousReport = (fn) => {
-//     let reportArray = [];
-//     if (fs.existsSync(fn)) {
-//         let data = fs.readFileSync(fn, 'utf8').toString();
-//         reportArray = JSON.parse(data);
-//     }
-//     return reportArray;
-// }
-
-
 // base readability analysis
 function analyzeBase(text, lang) {
     return {
@@ -48,12 +37,12 @@ exports.analyzeUrl = (url, title=null, lang=defaultLang) => {
         .then(req => {return req.text()})
         .then(body => {
             const parseOptions = {
-                ignoreHref: true,
-                ignoreImage: true,
-                unorderedListItemPrefix: ' - ',
-                uppercaseHeadings: false,
-                wordwrap: false,
-                format: { 
+                ignoreHref: true
+                ,ignoreImage: true
+                ,unorderedListItemPrefix: ' - '
+                ,uppercaseHeadings: false
+                ,wordwrap: false
+                ,format: { 
                     // remove tables
                     table: () => ''
                 }
@@ -63,15 +52,13 @@ exports.analyzeUrl = (url, title=null, lang=defaultLang) => {
 
             // url attributes
             const urlAttrs = {
-                "source": "url",
-                "url": url,
-                "title": title,
-                "dateFetch": Date.now()
+                "source": "url"
+                ,"url": url
             };
 
             return {
-                ...urlAttrs,
-                "readability": base
+                ...urlAttrs
+                ,"readability": base
             };
         });
 };
@@ -90,10 +77,9 @@ exports.analyzeFile = (fn, lang=defaultLang) => {
         .then(stats => {
             const base = analyzeBase(data.toString(), lang);
             const fnAttrs = {
-                "source": "file",
-                "pathRelative": path.relative(process.cwd(), fn),
-                "filename": path.basename(fn),
-                "dateModified": stats.mtime.toISOString()
+                "source": "file"
+                ,"pathRelative": path.relative(process.cwd(), fn)
+                ,"filename": path.basename(fn)
             };
         
             return {
