@@ -45,8 +45,10 @@ if(argv['read-url']) {
   }  
 }
 
-// show results in terminal
+// show reference card
 if(argv['show-card']) showCard();
+
+// resolve all promises, print out results and write save-score
 if(analysis.length == 0) {
   console.log(chalk.red("Nothing to analyze"));
   yargs.showHelp();

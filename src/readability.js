@@ -9,6 +9,8 @@ const rs = require('text-readability');
 const defaultLang = 'en-US';
 
 // base readability analysis
+// text: string to analyze
+// lang: language of the text
 function analyzeBase(text, lang) {
     return {
         "sentenceCount": rs.sentenceCount(text),
@@ -27,11 +29,11 @@ function analyzeBase(text, lang) {
 }
 
 
+// fetchs, convert to text and analyze url
 // url: fully qualified url
-// title: optional title for the url
-// lang: the url's language
+// lang: language of the text
 // returns: a promise with the readability score for the url
-exports.analyzeUrl = (url, title=null, lang=defaultLang) => {
+exports.analyzeUrl = (url, lang=defaultLang) => {
 
     return fetch(url)
         .then(req => {return req.text()})
@@ -63,12 +65,13 @@ exports.analyzeUrl = (url, title=null, lang=defaultLang) => {
         });
 };
 
+// analyze a plain text file
 // fn: path to a text file
+// lang: language of the text
 // returns: a promise with the readability score for the file
 exports.analyzeFile = (fn, lang=defaultLang) => {
 
     let data = null;
-
     return fs.readFile(fn, 'utf8')
         .then(buffer => { 
             data = buffer;

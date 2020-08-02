@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "src/readability-links-cli.js"
+            "program": "src/readability-score-cli.js"
         }
     ]
 }

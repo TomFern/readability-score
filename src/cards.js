@@ -53,8 +53,9 @@ exports.showTotals = (score) => {
     console.log("");
 }
   
-  
-// returns: color-formatted metric sting
+
+// format value into color-coded string, ranges are arbitrary
+// returns: string
 function sc(metric, value) {
 
     if(metric=="grade") {
@@ -63,75 +64,75 @@ function sc(metric, value) {
 
     if(metric=="ease") {
         if(value < 30) {
-        return "ease: " + chalk.red(value);
+        return "ease: " + chalk.red(value.toFixed(2));
         }
         if(value >= 30 && value < 60) {
-        return "ease: " + chalk.yellow(value);
+        return "ease: " + chalk.yellow(value.toFixed(2));
         }
         if(value >= 60 && value < 80) {
-        return "ease: " + value;
+        return "ease: " + value.toFixed(2);
         }
         if(value >= 80 && value < 90) {
-        return "ease: " + chalk.blue(value);
+        return "ease: " + chalk.blue(value.toFixed(2));
         }
         if(value >= 90) {
-        return "ease: " + chalk.green(value);
+        return "ease: " + chalk.green(value.toFixed(2));
         }
     }
 
     if(metric=="ari") {
         if(value < 4) {
-        return "ari: " + chalk.green(value);
+        return "ari: " + chalk.green(value.toFixed(2));
         }
         if(value >= 4 && value < 8) {
-        return "ari: " + chalk.blue(value);
+        return "ari: " + chalk.blue(value.toFixed(2));
         }
         if(value >= 8 && value < 10) {
-        return "ari: " + value;
+        return "ari: " + value.toFixed(2);
         }
         if(value >= 10 && value < 12) {
-        return "ari: " + chalk.yellow(value);
+        return "ari: " + chalk.yellow(value.toFixed(2));
         }
         if(value >= 12) {
-        return "ari: " + chalk.red(value);
+        return "ari: " + chalk.red(value.toFixed(2));
         }
     }
 
 
     if(metric=="dale") {
         if(value < 5) {
-        return "dale: " + chalk.green(value);
+        return "dale: " + chalk.green(value.toFixed(2));
         }
         if(value >= 5 && value < 7) {
-        return "dale: " + chalk.blue(value);
+        return "dale: " + chalk.blue(value.toFixed(2));
         }
         if(value >= 7 && value < 8) {
-        return "dale: " + value;
+        return "dale: " + value.toFixed(2);
         }
         if(value >= 8 && value < 9) {
-        return "dale: " + chalk.yellow(value);
+        return "dale: " + chalk.yellow(value.toFixed(2));
         }
         if(value >= 9) {
-        return "dale: " + chalk.red(value);
+        return "dale: " + chalk.red(value.toFixed(2));
         }
     }
 
 
     if(metric=="smog") {
         if(value < 5) {
-        return "smog: " + chalk.green(value);
+        return "smog: " + chalk.green(value.toFixed(2));
         }
         if(value >= 5 && value < 7) {
-        return "smog: " + chalk.blue(value);
+        return "smog: " + chalk.blue(value.toFixed(2));
         }
         if(value >= 7 && value < 8) {
-        return "smog: " + value;
+        return "smog: " + value.toFixed(2);
         }
         if(value >= 8 && value < 9) {
-        return "smog: " + chalk.yellow(value);
+        return "smog: " + chalk.yellow(value.toFixed(2));
         }
         if(value >= 9) {
-        return "smog: " + chalk.red(value);
+        return "smog: " + chalk.red(value.toFixed(2));
         }
     }
 

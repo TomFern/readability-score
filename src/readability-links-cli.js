@@ -29,25 +29,26 @@ let savedScores = [];
 if(argv['save-score'] && fs.existsSync(argv['save-score']))
     savedScores = JSON.parse(fs.readFileSync(argv['save-score'], 'utf8').toString());
 
-// extract url from read-file 
-// and filter out urls already found in save-score
+// extract urls from read-file 
+// and filter out those already found in save-score
 const savedUrls = savedScores.map(s => s.url);
-const urls = linkExtractor(fs.readFileSync(argv['read-file']).toString())
-    .filter(u => !savedUrls.includes(u))
-;
+const urls = linkExtractor(fs.readFileSync(argv['read-file'])
+    .toString())
+    .filter(u => !savedUrls.includes(u));
 
-// begin analyzing the remaining urls
+// begin analyzing the remaining urls, array elements are promises
 const scores = urls.map(url => readability.analyzeUrl(url));
 
-// show results in terminal & save score file
+// show reference card
 if(argv['show-card']) showCard();
+
+// resolve all promises, print out results and write save-score
 Promise.all(scores)
     .then(newScore => {
         const allScores = savedScores.concat(newScore);
         if(argv['save-score'])
             fs.writeFileSync(argv['save-score'], JSON.stringify(allScores, null, 4), 'utf8');
 
-        // show results
         showScore(newScore);
         showTotals(allScores);        
         console.log("%i skipped urls", allScores.length - newScore.length);
