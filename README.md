@@ -44,7 +44,7 @@ Examples:
 ## Installing it
 
 ```bash
-$ npm install -g readability-score
+$ npm install -g @tomfern/readability-score
 ```
 
 ## Building it

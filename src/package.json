@@ -1,10 +1,14 @@
 {
-  "name": "readability",
+  "name": "@tomfern/readability-score",
   "version": "1.0.0",
   "description": "Readability analysis CLI.",
   "main": "redeability-score-cli.js",
   "scripts": {
     "test": "node tests/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TomFern/readability-score"
   },
   "bin": {
     "readability-score": "readability-score-cli.js",
