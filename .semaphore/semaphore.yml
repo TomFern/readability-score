@@ -25,3 +25,6 @@ blocks:
             - sem-version node 12
             - cache restore
             - npm test
+promotions:
+  - name: Publish npmjs
+    pipeline_file: pipeline_2.yml

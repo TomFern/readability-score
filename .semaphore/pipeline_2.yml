@@ -1,0 +1,17 @@
+version: v1.0
+name: Pipeline 2
+blocks:
+  - name: Publish npmjs
+    task:
+      jobs:
+        - name: Publish
+          commands:
+            - checkout
+            - cd src
+            - npm publish
+      secrets:
+        - name: npmjs
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
