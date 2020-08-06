@@ -12,6 +12,7 @@ const defaultLang = 'en-US';
 // base readability analysis
 // text: string to analyze
 // lang: language of the text
+// returns: readability score
 function analyzeBase(text, lang) {
     return {
         "sentenceCount": rs.sentenceCount(text),
@@ -30,47 +31,11 @@ function analyzeBase(text, lang) {
 }
 
 
-// fetchs, convert to text and analyze url
-// url: fully qualified url
-// lang: language of the text
-// returns: a promise with the readability score for the url
-// exports.analyzeUrl2 = (url, lang=defaultLang) => {
-
-//     return fetch(url)
-//         .then(req => {return req.text()})
-//         .then(body => {
-//             const parseOptions = {
-//                 ignoreHref: true
-//                 ,ignoreImage: true
-//                 ,unorderedListItemPrefix: ' - '
-//                 ,uppercaseHeadings: false
-//                 ,wordwrap: false
-//                 ,format: { 
-//                     // remove tables
-//                     table: () => ''
-//                 }
-//             };
-//             const text = htmlToText.fromString(body, parseOptions);
-//             const base = analyzeBase(text, lang);
-
-//             // url attributes
-//             const urlAttrs = {
-//                 "source": "url"
-//                 ,"url": url
-//             };
-
-//             return {
-//                 ...urlAttrs
-//                 ,"readability": base
-//             };
-//         });
-// };
-
-
 // fetchs, converts to text and analyzes url
 // url: fully qualified url
 // lang: language of the text
-// returns: a promise with the readability score for the url 
+// returns: a promise with the readability score for the url
+//          if url cannot be retrieved: score.readability === null
 exports.analyzeUrl = (url, lang=defaultLang) => {
    
   return extract(url).then((article) => {
@@ -85,18 +50,20 @@ exports.analyzeUrl = (url, lang=defaultLang) => {
             table: () => ''
         }
     };
-   
-    const text = htmlToText.fromString(article.content, parseOptions);
-    const base = analyzeBase(text, lang);
 
-    // article attributes
-    const articleAttrs = {
-        "title": article.title
-        ,"author": article.author
-        ,"description": article.description
-        ,"published": article.published
-        ,"source": article.source
-        ,"image": article.image
+    let text, base, articleAttrs;
+    if(article) {
+        text = htmlToText.fromString(article.content, parseOptions);
+        base = analyzeBase(text, lang);   
+        // article attributes
+        articleAttrs = {
+            "title": article.title
+            ,"author": article.author
+            ,"description": article.description
+            ,"published": article.published
+            ,"source": article.source
+            ,"image": article.image
+        };
     }
 
     // url attributes
