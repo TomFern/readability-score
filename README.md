@@ -1,3 +1,5 @@
+[![Build Status](https://tomfern.semaphoreci.com/badges/readability-score.svg)](https://tomfern.semaphoreci.com/projects/readability-score)
+
 # readability-score
 
 CLI utility for analyzing plain text files and urls with [text-readability](https://www.npmjs.com/package/text-readability).
