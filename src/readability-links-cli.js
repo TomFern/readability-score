@@ -44,13 +44,28 @@ if(argv['show-card']) showCard();
 
 // resolve all promises, print out results and write save-score
 Promise.all(scores)
-    .then(newScore => {
-        const allScores = savedScores.concat(newScore);
+    .then(newScores => {
+
+        // filter failed and new urls
+        const okScores = newScores.filter(s => s.readability);
+        const allScores = savedScores.concat(okScores);
+
+        // write save-score
         if(argv['save-score'])
             fs.writeFileSync(argv['save-score'], JSON.stringify(allScores, null, 4), 'utf8');
 
-        showScore(newScore);
-        showTotals(allScores);        
-        console.log("%i skipped urls", allScores.length - newScore.length);
+        // print out results
+        showScore(okScores);
+        showTotals(allScores);   
+        
+        // show skipped and failed url count
+        console.log("%i skipped urls, %i failed urls"
+            ,allScores.length - okScores.length
+            ,newScores.length - okScores.length);
+
+        // print failed urls
+        if(newScores.length - okScores.length) {
+            newScores.filter(s => !s.readability).forEach(s => console.log(' ✗ ' + s.url));
+        }
     })
     .catch(console.error);

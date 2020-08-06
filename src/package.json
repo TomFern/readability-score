@@ -17,10 +17,10 @@
   "author": "Tomas Fernandez <contact@tomfern.com>",
   "license": "ISC",
   "dependencies": {
+    "article-parser": "^4.2.1",
     "chalk": "^4.1.0",
     "html-to-text": "^5.1.1",
     "markdown-link-extractor": "^1.2.3",
-    "node-fetch": "^2.6.0",
     "text-readability": "^1.0.5",
     "yargs": "^15.4.1"
   }
