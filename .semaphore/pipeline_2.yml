@@ -1,0 +1,17 @@
+version: v1.0
+name: Publish to npmjs.com
+blocks:
+  - name: " \U0001F3C1 npmjs.com"
+    task:
+      jobs:
+        - name: Publish
+          commands:
+            - checkout
+            - cd src
+            - npm publish --access public
+      secrets:
+        - name: npmjs
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
