@@ -1,14 +1,14 @@
 version: v1.0
-name: Pipeline 2
+name: Publish to npmjs.com
 blocks:
-  - name: Publish npmjs
+  - name: " \U0001F3C1 npmjs.com"
     task:
       jobs:
         - name: Publish
           commands:
             - checkout
             - cd src
-            - npm publish
+            - npm publish --access public
       secrets:
         - name: npmjs
 agent:

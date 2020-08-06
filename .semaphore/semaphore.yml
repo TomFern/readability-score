@@ -1,11 +1,11 @@
 version: v1.0
-name: Test MyApp
+name: CI
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Install
+  - name: "\U0001F4E6 Install"
     task:
       jobs:
         - name: Modules
@@ -14,13 +14,14 @@ blocks:
             - cd src
             - sem-version node 12
             - cache restore
-            - npm test
+            - npm install
+            - cache store
       secrets:
         - name: npmjs
-  - name: Tests
+  - name: " \U0001F9EA Run tests"
     task:
       jobs:
-        - name: Test
+        - name: Unit tests
           commands:
             - checkout
             - cd src
@@ -30,5 +31,7 @@ blocks:
       secrets:
         - name: npmjs
 promotions:
-  - name: Publish npmjs
+  - name: Publish
     pipeline_file: pipeline_2.yml
+    auto_promote:
+      when: branch = 'master' AND result = 'passed'
