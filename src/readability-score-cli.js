@@ -9,7 +9,7 @@ const { showScore, showCard } = require('./cards');
 // CLI options
 const yargs = require('yargs') // eslint-disable-line
   .scriptName('readability-score')
-  .version(false)
+  .version()
   .wrap(null)
   .usage(' Usage: $0 [-f FILE.txt] [-u "URL"] [-o FILE.json]')
   .example('Analyze files:', 'readability-score -f myfile1.txt -f myfile2.txt -o score.json')

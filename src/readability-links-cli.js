@@ -8,7 +8,7 @@ const readability = require('./readability');
 
 const yargs = require('yargs') // eslint-disable-line
   .scriptName('readability-links')
-  .version(false)
+  .version()
   .wrap(null)
   .usage(' Usage: $0 [-f FILE.md] [-o FILE.json]')
   .example('Analyze links in file:', 'readability-links -f mylinks.md')
