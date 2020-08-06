@@ -5,7 +5,17 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Test
+  - name: Install
+    task:
+      jobs:
+        - name: Modules
+          commands:
+            - checkout
+            - cd src
+            - sem-version node 12
+            - cache restore
+            - npm test
+  - name: Tests
     task:
       jobs:
         - name: Test
@@ -14,7 +24,4 @@ blocks:
             - cd src
             - sem-version node 12
             - cache restore
-            - npm install
-            - cache store
-            - npm run build --if-present
             - npm test
